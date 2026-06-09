@@ -27,8 +27,7 @@
 
 <nav class="bg-navy text-white px-8 py-4 shadow-lg flex justify-between items-center sticky top-0 z-50">
     <div class="flex items-center gap-3">
-
-        <h1 class="text-xl font-black tracking-widest uppercase">LogisTix</h1>
+        <h1 class="text-2xl font-extrabold tracking-tight"><span class="text-white">Logis</span><span class="text-[#f36f21]">Tix</span></h1>
     </div>
 
     <div class="flex items-center gap-6">
@@ -42,7 +41,6 @@
         </form>
     </div>
 </nav>
-
 
     <div class="max-w-7xl mx-auto py-10 px-6 lg:px-8">
 
@@ -94,11 +92,9 @@
                                 <p class="text-xs text-gray-500 mt-0.5">📞 {{ $pending->phone }} | 📧 {{ $pending->email }}</p>
                             </div>
                         </div>
-                       {{-- MENJADI INI --}}
-<a href="{{ route('admin.approve', $pending->id) }}" class="w-full sm:w-auto bg-brand hover:bg-gray-900 text-white px-6 py-2.5 rounded-lg font-bold text-xs tracking-wider transition shadow-md block text-center">
-    ✅ ACC SEKARANG
-</a>
-                        </form>
+                        <a href="{{ route('admin.approve', $pending->id) }}" class="w-full sm:w-auto bg-brand hover:bg-gray-900 text-white px-6 py-2.5 rounded-lg font-bold text-xs tracking-wider transition shadow-md block text-center">
+                            ✅ ACC SEKARANG
+                        </a>
                     </div>
                     @endforeach
                 </div>
@@ -234,6 +230,8 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const ctx = document.getElementById('mainChart').getContext('2d');
+
+            // Efek Gradien Warna
             let gradient = ctx.createLinearGradient(0, 0, 0, 350);
             gradient.addColorStop(0, 'rgba(237, 0, 0, 0.25)');
             gradient.addColorStop(1, 'rgba(237, 0, 0, 0.0)');
@@ -241,10 +239,10 @@
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli'],
+                    labels: {!! json_encode($bulanLabels ?? ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des']) !!},
                     datasets: [{
                         label: 'Volume Logistik',
-                        data: [42, 58, 45, 70, 65, 85, 92],
+                        data: {!! json_encode($dataTransaksiBulan ?? [0,0,0,0,0,0,0,0,0,0,0,0]) !!},
                         borderColor: '#ED0000',
                         backgroundColor: gradient,
                         borderWidth: 3,
@@ -269,9 +267,12 @@
                 }
             });
 
+            // FITUR REFRESH OTOMATIS
+            console.log("Timer refresh dimulai..."); // Cek di Inspect Element > Console
             setInterval(function() {
-                window.location.reload();
-            }, 3000);
+                console.log("Halaman sedang di-refresh!");
+                window.location.reload(true); // reload(true) memaksa ambil data baru, bukan dari cache
+            }, 5000);
         });
     </script>
 </body>

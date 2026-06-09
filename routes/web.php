@@ -26,8 +26,8 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
 
 // --- RUTE ROLE: ADMIN & SUPER ADMIN ---
 Route::middleware(['auth', 'role:superadmin,admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-
+// Pastikan bagian ->name('dashboard') sudah ada
+Route::get('/dashboard', [AdminController::class, 'superAdminDashboard'])->name('dashboard');
     // Fitur Manajemen User
     Route::post('/admin/user/{id}/jabatan', [AdminController::class, 'updateJabatan'])->name('admin.user.update.jabatan');
     Route::post('/admin/user/{id}/role', [AdminController::class, 'role'])->name('admin.user.role');
@@ -43,8 +43,7 @@ Route::middleware(['auth', 'role:superadmin,admin'])->group(function () {
 // --- RUTE ROLE: STAFF (Umum) ---
 Route::middleware(['auth'])->group(function () {
     // FIX: Mengarahkan langsung ke dashboard admin yang sudah ada agar tidak error
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
-});
+Route::get('/admin/admdash', [AdminController::class, 'dashboardTeman'])->name('admin.admdash');});
 
 // Google Auth
 Route::get('/auth/google', fn() => Socialite::driver('google')->redirect())->name('google.login');
@@ -66,4 +65,6 @@ Route::get('/check-approval/{email}', [RegisteredUserController::class, 'checkAp
 // Rute Publik
 Route::post('/verify-otp', [RegisteredUserController::class, 'verifyOtp'])->name('verify.otp');
 Route::get('/admin/approve/{id}', [RegisteredUserController::class, 'approveUser'])->name('admin.approve');
+
+
 require __DIR__.'/auth.php';

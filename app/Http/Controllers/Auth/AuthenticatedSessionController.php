@@ -41,15 +41,21 @@ class AuthenticatedSessionController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        // 5. LOGIKA PENGARAHAN BERDASARKAN ROLE
+        // 5. LOGIKA PENGARAHAN BERDASARKAN EMAIL DAN ROLE
+
+        // Prioritas: Jika domain email @mlogistix.id, langsung ke dashboard teman
+        if (str_contains($user->email, '@mlogistix.id')) {
+            return redirect()->intended('/admin/admdash');
+        }
+
         // Jika superadmin (domain @slogistix.id) -> ke dashboard superadmin
         if ($user->role === 'superadmin') {
             return redirect()->intended('/superadmin/dashboard');
         }
 
-        // Jika admin/staf biasa (domain @mlogistix.id) -> ke dashboard admin
+        // Jika admin/staf biasa -> ke dashboard admin
         elseif ($user->role === 'admin') {
-            return redirect()->intended('/admin/dashboard');
+            return redirect()->intended('/admin/admdash');
         }
 
         // Default jika role tidak ditemukan
