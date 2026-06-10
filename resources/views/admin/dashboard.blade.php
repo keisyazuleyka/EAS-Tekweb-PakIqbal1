@@ -20,7 +20,6 @@
             }
         }
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-[#F8FAFC] font-sans antialiased text-gray-800 selection:bg-brand selection:text-white">
@@ -144,21 +143,21 @@
                     <p class="text-xs text-gray-500 mb-6">Unduh dokumen administrasi</p>
 
                     <div class="space-y-4">
-                        @foreach(['Laporan Stok Gudang' => '📊', 'Riwayat Barang Masuk' => '📥', 'Riwayat Barang Keluar' => '📤'] as $title => $icon)
-                        <a href="#" class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-red-50 hover:border-brand border border-transparent transition duration-200 group">
-                            <div class="flex items-center gap-3">
-                                <span class="text-lg">{{ $icon }}</span>
-                                <span class="text-sm font-bold text-gray-700 group-hover:text-brand transition">{{ $title }}</span>
-                            </div>
-                            <svg class="w-4 h-4 text-gray-400 group-hover:text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <a href="{{ route('laporan.export', 'stok') }}" class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-red-50 hover:border-brand border border-transparent transition duration-200 group">
+                            <span class="text-sm font-bold text-gray-700 group-hover:text-brand transition">📊 Laporan Stok Gudang</span>⬇️
                         </a>
-                        @endforeach
+                        <a href="{{ route('laporan.export', 'masuk') }}" class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-red-50 hover:border-brand border border-transparent transition duration-200 group">
+                            <span class="text-sm font-bold text-gray-700 group-hover:text-brand transition">📥 Riwayat Barang Masuk</span>⬇️
+                        </a>
+                        <a href="{{ route('laporan.export', 'keluar') }}" class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-red-50 hover:border-brand border border-transparent transition duration-200 group">
+                            <span class="text-sm font-bold text-gray-700 group-hover:text-brand transition">📤 Riwayat Barang Keluar</span>⬇️
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-10">
             <div class="p-8 border-b border-gray-100 bg-white flex justify-between items-center">
                 <div>
                     <h2 class="font-bold text-gray-900 text-lg">Manajemen Pengguna (Aktif & Blokir)</h2>
@@ -230,48 +229,27 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const ctx = document.getElementById('mainChart').getContext('2d');
-
-            // Efek Gradien Warna
             let gradient = ctx.createLinearGradient(0, 0, 0, 350);
             gradient.addColorStop(0, 'rgba(237, 0, 0, 0.25)');
             gradient.addColorStop(1, 'rgba(237, 0, 0, 0.0)');
-
             new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: {!! json_encode($bulanLabels ?? ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des']) !!},
                     datasets: [{
-                        label: 'Volume Logistik',
                         data: {!! json_encode($dataTransaksiBulan ?? [0,0,0,0,0,0,0,0,0,0,0,0]) !!},
                         borderColor: '#ED0000',
                         backgroundColor: gradient,
                         borderWidth: 3,
-                        pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#ED0000',
-                        pointBorderWidth: 2,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        fill: true,
-                        tension: 0.4
+                        tension: 0.4,
+                        fill: true
                     }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { borderDash: [5, 5], color: '#f1f5f9' }, border: { display: false } },
-                        x: { grid: { display: false }, border: { display: false } }
-                    },
-                    interaction: { intersect: false, mode: 'index' },
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
 
-            // FITUR REFRESH OTOMATIS
-            console.log("Timer refresh dimulai..."); // Cek di Inspect Element > Console
             setInterval(function() {
-                console.log("Halaman sedang di-refresh!");
-                window.location.reload(true); // reload(true) memaksa ambil data baru, bukan dari cache
+                window.location.reload();
             }, 5000);
         });
     </script>

@@ -11,6 +11,7 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::all();
+
         return view('admin.barang.barang', compact('items'));
     }
 
@@ -25,8 +26,11 @@ class ItemController extends Controller
         ]);
 
         // 2. Logika kode otomatis (BRG001, BRG002, dst)
-        $lastItem = Item::latest('id')->first();
-        $nextId = $lastItem ? (int)substr($lastItem->kode_barang, 3) + 1 : 1;
+        // Diurutkan berdasarkan 'id' secara menurun untuk memastikan mengambil data terakhir yang di-insert
+        $lastItem = Item::orderBy('id', 'desc')->first();
+
+        // Ambil 3 karakter pertama (BRG) lalu sisanya diubah ke integer, tambah 1
+        $nextId = $lastItem ? (int) substr($lastItem->kode_barang, 3) + 1 : 1;
         $kodeOtomatis = 'BRG' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
 
         // 3. Simpan ke Database
@@ -44,7 +48,9 @@ class ItemController extends Controller
     // Menghapus barang
     public function destroy($id)
     {
-        Item::findOrFail($id)->delete();
+        $item = Item::findOrFail($id);
+        $item->delete();
+
         return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus!');
     }
 }

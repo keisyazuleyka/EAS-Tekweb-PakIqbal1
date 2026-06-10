@@ -16,7 +16,7 @@
         .sidebar .nav-item { width: 100%; }
         .sidebar .nav-link { color: #727ba2; font-weight: 500; padding: 12px 24px; display: flex; align-items: center; gap: 12px; font-size: 0.95rem; text-decoration: none; transition: color 0.2s; }
         .sidebar .nav-link:hover { color: #ffffff; }
-        .sidebar .nav-item.active-menu { background-color: #3e1f38; }
+        .sidebar .nav-item.active-menu { background-color: #3e1f38; border-left: 4px solid #f36f21; }
         .sidebar .nav-item.active-menu .nav-link { color: #ffffff; }
         .sidebar .nav-link svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; opacity: 0.6; }
         .sidebar .nav-item.active-menu .nav-link svg { opacity: 1; }
@@ -32,18 +32,24 @@
         <div class="d-flex flex-column w-100">
             <div class="nav-item">
                 <a href="{{ route('dashboard') }}" class="nav-link">
-                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    Dashboard
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> Dashboard
                 </a>
             </div>
             <div class="nav-item active-menu">
                 <a href="{{ route('barang.index') }}" class="nav-link">
-                    <svg viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
-                    Barang
+                    <svg viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg> Barang
                 </a>
             </div>
-            <div class="nav-item"><a href="#" class="nav-link"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Stok</a></div>
-            <div class="nav-item"><a href="#" class="nav-link"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg> Laporan</a></div>
+            <div class="nav-item">
+                <a href="{{ route('stok.index') }}" class="nav-link">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Stok
+                </a>
+            </div>
+            <div class="nav-item {{ request()->routeIs('laporan.index') ? 'active-menu' : '' }}">
+                <a href="{{ route('laporan.index') }}" class="nav-link">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg> Laporan
+                </a>
+            </div>
             <hr class="text-secondary mx-3 mt-4 mb-3">
             <form method="POST" action="{{ route('logout') }}" class="px-3">
                 @csrf
