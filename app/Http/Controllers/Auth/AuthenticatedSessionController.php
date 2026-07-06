@@ -27,7 +27,10 @@ class AuthenticatedSessionController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        dd($user, Hash::check($request->password, $user?->password));
+        dd(config('database.default'),
+        config('database.connections.sqlite.database'),
+        $request->email
+        );
 
         // 2. Cek apakah user ada dan password benar
         if (!$user || !Hash::check($request->password, $user->password)) {
