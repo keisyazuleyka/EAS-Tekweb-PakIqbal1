@@ -27,6 +27,8 @@ class AuthenticatedSessionController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
+        dd($user, Hash::check($request->password, $user?->password));
+
         // 2. Cek apakah user ada dan password benar
         if (!$user || !Hash::check($request->password, $user->password)) {
             return back()->withErrors(['email' => 'Email atau password salah.']);
