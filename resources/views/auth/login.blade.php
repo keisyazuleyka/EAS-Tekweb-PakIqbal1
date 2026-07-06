@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Masuk - LogisTix</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+   <link rel="stylesheet" href="{{ asset('build/assets/app-DQ3XtoCw.css') }}">
+<script src="{{ asset('build/assets/app-DO2nEFzp.js') }}"></script>
     <style>
         [x-cloak] { display: none !important; }
         .page-fade-in { animation: fadeInScale 0.3s ease-out forwards; }
